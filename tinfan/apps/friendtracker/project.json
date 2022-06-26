@@ -1,0 +1,84 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/friendtracker/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/friendtracker",
+        "index": "apps/friendtracker/src/index.html",
+        "baseHref": "/",
+        "main": "apps/friendtracker/src/main.tsx",
+        "polyfills": "apps/friendtracker/src/polyfills.ts",
+        "tsConfig": "apps/friendtracker/tsconfig.app.json",
+        "assets": [
+          "apps/friendtracker/src/favicon.ico",
+          "apps/friendtracker/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/friendtracker/src/environments/environment.ts",
+              "with": "apps/friendtracker/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "friendtracker:build",
+        "hmr": true,
+        "proxyConfig": "apps/friendtracker/proxy.conf.json"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "friendtracker:build:development"
+        },
+        "production": {
+          "buildTarget": "friendtracker:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/friendtracker/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/friendtracker"],
+      "options": {
+        "jestConfig": "apps/friendtracker/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
